@@ -281,11 +281,27 @@
   .playbtn:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:50%; }
 
   .track .title{
+    display:flex;
+    align-items:center;
+    gap:0.55rem;
     font-size:1.05rem;
     color:var(--parchment);
     font-weight:500;
     line-height:1.4;
   }
+
+  .spotify-link{
+    flex:none;
+    display:inline-flex;
+    width:1.1rem;
+    height:1.1rem;
+    color:#1DB954;
+    opacity:0.8;
+    transition:opacity 0.2s ease, transform 0.2s ease;
+  }
+  .spotify-link svg{ width:100%; height:100%; }
+  .spotify-link:hover, .spotify-link:focus-visible{ opacity:1; transform:scale(1.12); }
+  .spotify-link:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; border-radius:50%; }
 
   .track .tag{
     justify-self:end;
@@ -406,35 +422,35 @@
 (function(){
   var DATA = {
     1: [
-      {title:"आओ मुझे सीने से लगा लो", mood:"Romantic", src:"audio/a1_01.mp3"},
-      {title:"हौले से मेरी साँसों ने पूछा", mood:"Romantic", src:"audio/a1_02.mp3"},
-      {title:"हद से परे प्यार करने दे", mood:"Romantic", src:"audio/a1_03.mp3"},
-      {title:"शरारती चाहतों को मुझे छुपाना नहीं आता", mood:"Romantic", src:"audio/a1_04.mp3"},
-      {title:"ऐसे छू लिया है मुझे", mood:"Romantic", src:"audio/a1_05.mp3"},
-      {title:"ज़रा सा इश्क़ होने दे", mood:"Romantic", src:"audio/a1_06.mp3"},
-      {title:"एक हो जा मेरे संग", mood:"Deep Romantic", src:"audio/a1_07.mp3"},
-      {title:"रसीले लम्हों की बहार", mood:"Romantic", src:"audio/a1_08.mp3"},
-      {title:"गर मेरे लब गुस्ताख़", mood:"Romantic", src:"audio/a1_09.mp3"}
+      {title:"आओ मुझे सीने से लगा लो", mood:"Romantic", src:"audio/a1_01.mp3", spotify:"https://open.spotify.com/album/2LeNDyeqCiJ1YAHPFUXxJn"},
+      {title:"हौले से मेरी साँसों ने पूछा", mood:"Romantic", src:"audio/a1_02.mp3", spotify:"https://open.spotify.com/album/7FIgXHq8B4h9kq3LTWrl5R"},
+      {title:"हद से परे प्यार करने दे", mood:"Romantic", src:"audio/a1_03.mp3", spotify:"https://open.spotify.com/album/5IBJbGfXGQPSnh1Kfn43kL"},
+      {title:"शरारती चाहतों को मुझे छुपाना नहीं आता", mood:"Romantic", src:"audio/a1_04.mp3", spotify:"https://open.spotify.com/album/1G90LF9SiqGw4HTfuuDY0T"},
+      {title:"ऐसे छू लिया है मुझे", mood:"Romantic", src:"audio/a1_05.mp3", spotify:"https://open.spotify.com/album/7r9NeXPmlYT3C9FbSvjXWs"},
+      {title:"ज़रा सा इश्क़ होने दे", mood:"Romantic", src:"audio/a1_06.mp3", spotify:"https://open.spotify.com/album/0Yt6WeRBiFtLH20T3ndTkm"},
+      {title:"एक हो जा मेरे संग", mood:"Deep Romantic", src:"audio/a1_07.mp3", spotify:"https://open.spotify.com/album/0T8NINIF8K1U6q0MdiHwMY"},
+      {title:"रसीले लम्हों की बहार", mood:"Romantic", src:"audio/a1_08.mp3", spotify:"https://open.spotify.com/album/7nfFxoA0o6cDQiq4kwofjs"},
+      {title:"गर मेरे लब गुस्ताख़", mood:"Romantic", src:"audio/a1_09.mp3", spotify:"https://open.spotify.com/album/6wgrgi7MzRPI5gkGpXtoBX"}
     ],
     2: [
-      {title:"आस-पास", mood:"Longing · Female", src:"audio/a2_01.mp3"},
-      {title:"ज़िक्र किया चाँद ने", mood:"Longing · Female", src:"audio/a2_02.mp3"},
-      {title:"महफूज़ किनारा", mood:"Sensual · Female", src:"audio/a2_03.mp3"},
-      {title:"कतरा-कतरा", mood:"Sensual · Female", src:"audio/a2_04.mp3"},
-      {title:"बीती रैना", mood:"Romance · Female", src:"audio/a2_05.mp3"},
-      {title:"वो लम्हें", mood:"Sensual · Female", src:"audio/a2_06.mp3"},
-      {title:"रातों का नशा", mood:"Sensual · Female", src:"audio/a2_07.mp3"},
-      {title:"ये तड़प", mood:"Sensual · Female", src:"audio/a2_08.mp3"}
+      {title:"आस-पास", mood:"Longing · Female", src:"audio/a2_01.mp3", spotify:"https://open.spotify.com/album/3WE2O7oO6q8SBNXnyJygb0"},
+      {title:"ज़िक्र किया चाँद ने", mood:"Longing · Female", src:"audio/a2_02.mp3", spotify:"https://open.spotify.com/album/3WE2O7oO6q8SBNXnyJygb0"},
+      {title:"महफूज़ किनारा", mood:"Sensual · Female", src:"audio/a2_03.mp3", spotify:"https://open.spotify.com/album/3WE2O7oO6q8SBNXnyJygb0"},
+      {title:"कतरा-कतरा", mood:"Sensual · Female", src:"audio/a2_04.mp3", spotify:"https://open.spotify.com/album/3WE2O7oO6q8SBNXnyJygb0"},
+      {title:"बीती रैना", mood:"Romance · Female", src:"audio/a2_05.mp3", spotify:"https://open.spotify.com/album/3WE2O7oO6q8SBNXnyJygb0"},
+      {title:"वो लम्हें", mood:"Sensual · Female", src:"audio/a2_06.mp3", spotify:"https://open.spotify.com/album/3WE2O7oO6q8SBNXnyJygb0"},
+      {title:"रातों का नशा", mood:"Sensual · Female", src:"audio/a2_07.mp3", spotify:"https://open.spotify.com/album/3WE2O7oO6q8SBNXnyJygb0"},
+      {title:"ये तड़प", mood:"Sensual · Female", src:"audio/a2_08.mp3", spotify:"https://open.spotify.com/album/3WE2O7oO6q8SBNXnyJygb0"}
     ],
     3: [
-      {title:"दिल लगा लिया", mood:"Romance", src:"audio/a3_01.mp3"},
-      {title:"नादान", mood:"Longing · Male", src:"audio/a3_02.mp3"},
-      {title:"अंधेरों में ले चल", mood:"Romance", src:"audio/a3_03.mp3"},
-      {title:"लम्हें", mood:"Romance", src:"audio/a3_04.mp3"},
-      {title:"दिल कितना याद करता है", mood:"Longing · Male", src:"audio/a3_05.mp3"},
-      {title:"तन्हाई", mood:"Longing · Male", src:"audio/a3_06.mp3"},
-      {title:"तेरे संग ने", mood:"Romance · Male", src:"audio/a3_07.mp3"},
-      {title:"चाँदनी", mood:"Romance · Male", src:"audio/a3_08.mp3"}
+      {title:"दिल लगा लिया", mood:"Romance", src:"audio/a3_01.mp3", spotify:"https://open.spotify.com/album/1685wCsOmVp0znAjSt53N3"},
+      {title:"नादान", mood:"Longing · Male", src:"audio/a3_02.mp3", spotify:"https://open.spotify.com/album/1685wCsOmVp0znAjSt53N3"},
+      {title:"अंधेरों में ले चल", mood:"Romance", src:"audio/a3_03.mp3", spotify:"https://open.spotify.com/album/1685wCsOmVp0znAjSt53N3"},
+      {title:"लम्हें", mood:"Romance", src:"audio/a3_04.mp3", spotify:"https://open.spotify.com/album/1685wCsOmVp0znAjSt53N3"},
+      {title:"दिल कितना याद करता है", mood:"Longing · Male", src:"audio/a3_05.mp3", spotify:"https://open.spotify.com/album/1685wCsOmVp0znAjSt53N3"},
+      {title:"तन्हाई", mood:"Longing · Male", src:"audio/a3_06.mp3", spotify:"https://open.spotify.com/album/1685wCsOmVp0znAjSt53N3"},
+      {title:"तेरे संग ने", mood:"Romance · Male", src:"audio/a3_07.mp3", spotify:"https://open.spotify.com/album/1685wCsOmVp0znAjSt53N3"},
+      {title:"चाँदनी", mood:"Romance · Male", src:"audio/a3_08.mp3", spotify:"https://open.spotify.com/album/1685wCsOmVp0znAjSt53N3"}
     ]
   };
 
@@ -450,13 +466,20 @@
       '<g class="pause"><rect x="7" y="5" width="4" height="14" fill="currentColor"></rect><rect x="14" y="5" width="4" height="14" fill="currentColor"></rect></g></svg>';
   }
 
+  function spotifyIconSVG(){
+    return '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.29 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"></path></svg>';
+  }
+
   function buildRow(t, idx){
     var row = document.createElement('div');
     row.className = 'track';
     row.innerHTML =
       '<span class="num mono">' + String(idx+1).padStart(2,'0') + '</span>' +
       '<button class="playbtn" aria-label="Play preview of ' + t.title + '">' + iconSVG() + '</button>' +
-      '<span class="title lang-hi">' + t.title + '</span>' +
+      '<span class="title lang-hi">' +
+        '<a class="spotify-link" href="' + t.spotify + '" target="_blank" rel="noopener noreferrer" aria-label="Listen to ' + t.title + ' on Spotify">' + spotifyIconSVG() + '</a>' +
+        '<span>' + t.title + '</span>' +
+      '</span>' +
       '<span class="tag mono">' + t.mood + '</span>';
     var btn = row.querySelector('.playbtn');
     var ring = row.querySelector('.ring-fg');
