@@ -41,6 +41,27 @@ derivatives for web delivery only.
   ring that fills over the 30-second clip and auto-resets on `ended`. Only
   one track plays at a time.
 
+## Placeholder assets
+
+`audio/` and `images/` in this repo are **generated placeholders**, not the
+real SoulVani masters or artwork — no source files from the Dropbox project
+were available in this environment. They exist so the page is fully
+functional end-to-end (every track button plays something, every cover
+renders):
+
+- `audio/a{N}_{TT}.mp3` — 30s synthesized ambient pads (pure Python + LAME,
+  no real recording involved), pitched by album register so each album has
+  its own feel. Generation script: not checked in; regenerate real previews
+  per the ffmpeg recipe below once masters are available.
+- `images/cover{N}.jpg` — generated abstract "night sky" gradients using
+  each album's identity color (rose / lavender / slate) plus a marigold
+  accent, matching the design system's mood without depicting anything.
+- `images/logo.png` — a generated ring + soundwave mark in marigold.
+
+**Before this goes live, swap all of these for the real 30-second excerpts
+and real cover art / logo**, keeping the same filenames so no changes to
+`index.html` are needed.
+
 ## Known open items / things to decide before this goes live as the real site
 
 1. **No purchase/streaming links included** — this build is a pure listening
