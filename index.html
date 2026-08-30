@@ -1,0 +1,523 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SoulVani Listening Room</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martel:wght@400;700;800&family=Hind:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  /*
+    Design plan
+    -----------
+    Concept: "a night listening room" — SoulVani's own language across all
+    three albums is nocturnal (pink dusk skies, twilight & lavender, midnight
+    cities), so the whole page commits to one deliberate night world rather
+    than a light/dark toggle. Background and every color are painted
+    explicitly so the page holds regardless of host theme.
+
+    Color
+      --ink        #12131c   page ground, "raat ki syahi" (night's ink)
+      --panel      #1b1c29   raised surface / cards
+      --panel-line #2a2c3d   hairline borders on panels
+      --parchment  #f2ece0   primary text — warm ivory, not stark white
+      --parchment-dim #b9b3ac  secondary / caption text
+      --marigold   #e8a33d   single bold accent — play state, active ring
+      --rose       #d98a95   Album I identity — "pink skies"
+      --lavender   #9d94c9   Album II identity — "twilight, lavender"
+      --slate      #7c8ba3   Album III identity — "cities at midnight"
+
+    Type
+      Display : Martel 800/700 (serif, Devanagari + Latin) — headline weight,
+                 used sparingly, for album + hero titles only.
+      Body    : Hind 300–700 (Devanagari + Latin sans) — taglines, track
+                 titles, running text.
+      Utility : IBM Plex Mono 400/500 — track numbers, mood-tag captions,
+                 timers. Latin only (mood labels + numerals).
+
+    Layout
+      Full-bleed hero (logo + brand + tagline) opens the page like a title
+      card, then three album "chapters" alternate cover-left/cover-right,
+      each tinted by its own identity color from the taglines themselves —
+      color-coding here reports something true (each album's own described
+      mood), not decoration. Track rows use a circular stroke-ring button
+      that fills over the real 20-second preview instead of a generic
+      progress bar.
+  */
+
+  :root{
+    --ink:#12131c;
+    --panel:#1b1c29;
+    --panel-line:#2a2c3d;
+    --parchment:#f2ece0;
+    --parchment-dim:#b9b3ac;
+    --marigold:#e8a33d;
+    --rose:#d98a95;
+    --lavender:#9d94c9;
+    --slate:#7c8ba3;
+    --accent: var(--marigold);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink);
+    color:var(--parchment);
+    font-family:"Hind", "Noto Sans Devanagari", sans-serif;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;}
+
+  h1,h2,h3{
+    font-family:"Martel","Noto Serif Devanagari",serif;
+    font-weight:800;
+    text-wrap:balance;
+    margin:0;
+  }
+  .lang-hi{ font-family:"Hind","Martel","Noto Sans Devanagari",serif; }
+
+  .mono{
+    font-family:"IBM Plex Mono", monospace;
+    letter-spacing:0.06em;
+  }
+  .eyebrow{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:0.72rem;
+    letter-spacing:0.22em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  a{color:inherit;}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:8vh 6vw 10vh;
+    position:relative;
+  }
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(ellipse 60% 45% at 50% 30%, rgba(232,163,61,0.10), transparent 70%),
+      radial-gradient(ellipse 80% 60% at 20% 90%, rgba(157,148,201,0.07), transparent 70%);
+    pointer-events:none;
+  }
+  .hero-mark{
+    position:relative;
+    width:min(30vw, 190px);
+    margin-bottom:2.2rem;
+  }
+  .hero-mark img{
+    width:100%;
+    filter:drop-shadow(0 0 28px rgba(232,163,61,0.28));
+    animation:breathe 6.5s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%,100%{ transform:scale(1); filter:drop-shadow(0 0 24px rgba(232,163,61,0.22)); }
+    50%{ transform:scale(1.045); filter:drop-shadow(0 0 40px rgba(232,163,61,0.36)); }
+  }
+  .hero h1{
+    font-size:clamp(2.6rem, 7vw, 5rem);
+    letter-spacing:0.01em;
+    color:var(--parchment);
+  }
+  .hero .kicker{
+    margin-top:1.1rem;
+    font-size:clamp(1.05rem,2.2vw,1.35rem);
+    color:var(--parchment-dim);
+    font-weight:300;
+    max-width:36rem;
+  }
+  .hero .kicker em{
+    font-style:normal;
+    color:var(--accent);
+  }
+  .hero .cue{
+    margin-top:3.5rem;
+    font-size:0.78rem;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:var(--parchment-dim);
+    opacity:0.75;
+  }
+  .hero .cue::after{
+    content:"";
+    display:block;
+    width:1px;
+    height:34px;
+    margin:0.7rem auto 0;
+    background:linear-gradient(to bottom, var(--parchment-dim), transparent);
+    animation:drip 2.4s ease-in-out infinite;
+  }
+  @keyframes drip{
+    0%{ opacity:0.15; transform:scaleY(0.4); transform-origin:top; }
+    50%{ opacity:0.8; transform:scaleY(1); transform-origin:top; }
+    100%{ opacity:0.15; transform:scaleY(0.4); transform-origin:top; }
+  }
+
+  /* ---------- Album chapters ---------- */
+  .album{
+    padding:7rem 6vw;
+    border-top:1px solid var(--panel-line);
+    position:relative;
+  }
+  .album-inner{
+    max-width:1080px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:minmax(240px,340px) 1fr;
+    gap:3.5rem 4rem;
+    align-items:start;
+  }
+  .album.reverse .album-inner{ direction:rtl; }
+  .album.reverse .album-inner > *{ direction:ltr; }
+
+  .album-art{
+    position:relative;
+  }
+  .album-art img{
+    border-radius:3px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.6), 0 0 0 1px var(--panel-line);
+  }
+  .album-art .ring{
+    position:absolute;
+    inset:-14px;
+    border:1px solid color-mix(in srgb, var(--accent) 45%, transparent);
+    border-radius:6px;
+    pointer-events:none;
+  }
+
+  .album-head .eyebrow{ margin-bottom:0.9rem; display:block; }
+  .album-head h2{
+    font-size:clamp(1.9rem,3.4vw,2.6rem);
+    color:var(--parchment);
+    line-height:1.15;
+  }
+  .album-head .translit{
+    display:block;
+    font-family:"Hind",sans-serif;
+    font-weight:400;
+    font-size:1.05rem;
+    color:var(--parchment-dim);
+    margin-top:0.35rem;
+    letter-spacing:0.02em;
+  }
+  .album-head .tagline{
+    margin-top:1.1rem;
+    font-size:1.08rem;
+    line-height:1.6;
+    color:var(--parchment-dim);
+    max-width:30rem;
+    font-weight:300;
+  }
+  .album-head .tagline b{
+    color:var(--parchment);
+    font-weight:600;
+  }
+
+  .tracklist{
+    grid-column:1 / -1;
+    margin-top:2.8rem;
+    border-top:1px solid var(--panel-line);
+  }
+  .track{
+    display:grid;
+    grid-template-columns:2.4rem 3.2rem 1fr auto;
+    align-items:center;
+    gap:1.1rem;
+    padding:1rem 0.4rem;
+    border-bottom:1px solid var(--panel-line);
+    transition:background-color 0.25s ease;
+  }
+  .track:hover{ background:color-mix(in srgb, var(--accent) 6%, transparent); }
+  .track.playing{ background:color-mix(in srgb, var(--accent) 10%, transparent); }
+
+  .track .num{
+    color:var(--parchment-dim);
+    font-size:0.85rem;
+    opacity:0.7;
+  }
+
+  .playbtn{
+    width:2.6rem;
+    height:2.6rem;
+    border-radius:50%;
+    background:transparent;
+    border:none;
+    padding:0;
+    cursor:pointer;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--parchment);
+  }
+  .playbtn svg{ position:absolute; inset:0; transform:rotate(-90deg); }
+  .playbtn .ring-bg{ fill:none; stroke:var(--panel-line); stroke-width:2; }
+  .playbtn .ring-fg{
+    fill:none;
+    stroke:var(--accent);
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-dasharray:100.5;
+    stroke-dashoffset:100.5;
+    transition:stroke-dashoffset 0.05s linear;
+  }
+  .playbtn .icon{ position:relative; z-index:1; width:0.85rem; height:0.85rem; }
+  .playbtn .icon .pause{ display:none; }
+  .track.playing .playbtn .icon .play{ display:none; }
+  .track.playing .playbtn .icon .pause{ display:block; }
+  .playbtn:focus-visible{ outline:2px solid var(--accent); outline-offset:3px; border-radius:50%; }
+
+  .track .title{
+    font-size:1.05rem;
+    color:var(--parchment);
+    font-weight:500;
+    line-height:1.4;
+  }
+
+  .track .tag{
+    justify-self:end;
+    font-size:0.66rem;
+    letter-spacing:0.1em;
+    text-transform:uppercase;
+    color:var(--parchment-dim);
+    border:1px solid var(--panel-line);
+    border-radius:100px;
+    padding:0.32rem 0.7rem;
+    white-space:nowrap;
+  }
+
+  /* ---------- Footer ---------- */
+  footer{
+    padding:5rem 6vw 4rem;
+    text-align:center;
+    border-top:1px solid var(--panel-line);
+  }
+  footer .fmark{ width:52px; margin:0 auto 1.2rem; opacity:0.85; }
+  footer p{
+    color:var(--parchment-dim);
+    font-size:0.92rem;
+    font-weight:300;
+    max-width:28rem;
+    margin:0.3rem auto;
+    line-height:1.6;
+  }
+  footer .sig{
+    margin-top:1.6rem;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--parchment-dim);
+    opacity:0.55;
+  }
+
+  .reveal{
+    opacity:0;
+    transform:translateY(18px);
+    transition:opacity 0.9s ease, transform 0.9s ease;
+  }
+  .reveal.in{ opacity:1; transform:translateY(0); }
+
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior:auto; }
+    .hero-mark img{ animation:none; }
+    .hero .cue::after{ animation:none; }
+    .reveal{ transition:none; opacity:1; transform:none; }
+  }
+
+  @media (max-width: 760px){
+    .album-inner{ grid-template-columns:1fr; }
+    .album.reverse .album-inner{ direction:ltr; }
+    .album-art{ max-width:280px; margin:0 auto; }
+    .track{ grid-template-columns:1.6rem 2.6rem 1fr; }
+    .track .tag{ grid-column:2 / -1; justify-self:start; margin-top:0.3rem; }
+  }
+</style>
+
+</head>
+<body>
+<audio id="player" preload="none"></audio>
+
+<section class="hero">
+  <div class="hero-mark"><img src="images/logo.png" alt="SoulVani mark"></div>
+  <h1>SoulVani</h1>
+  <p class="kicker">A Hindi neo-soul project for <em>slow listeners</em>. Three albums of restless love, twilight longing, and unfinished midnight moments — press play for a thirty-second glimpse of any song.</p>
+  <div class="cue">listen</div>
+</section>
+
+<!-- ALBUM 1 -->
+<section class="album" id="album-1" style="--accent:var(--rose)">
+  <div class="album-inner">
+    <div class="album-art reveal"><span class="ring"></span><img src="images/cover1.jpg" alt="इश्क़ बेक़रार album cover"></div>
+    <div class="album-head reveal">
+      <span class="eyebrow">Album I</span>
+      <h2 class="lang-hi">इश्क़ बेक़रार<span class="translit">Ishq Beqarar</span></h2>
+      <p class="tagline">The restless first love — <b>pink skies</b>, mischievous hearts. Nine songs of love arriving before it's invited.</p>
+    </div>
+    <div class="tracklist" id="tracks-1"></div>
+  </div>
+</section>
+
+<!-- ALBUM 2 -->
+<section class="album reverse" id="album-2" style="--accent:var(--lavender)">
+  <div class="album-inner">
+    <div class="album-art reveal"><span class="ring"></span><img src="images/cover2.jpg" alt="तू है यहीं album cover"></div>
+    <div class="album-head reveal">
+      <span class="eyebrow">Album II</span>
+      <h2 class="lang-hi">तू है यहीं<span class="translit">Tu Hai Yahin</span></h2>
+      <p class="tagline">The presence in absence — <b>twilight, lavender</b>, longing. Eight songs sung to a room that still smells of someone.</p>
+    </div>
+    <div class="tracklist" id="tracks-2"></div>
+  </div>
+</section>
+
+<!-- ALBUM 3 -->
+<section class="album" id="album-3" style="--accent:var(--slate)">
+  <div class="album-inner">
+    <div class="album-art reveal"><span class="ring"></span><img src="images/cover3.jpg" alt="अधूरे लम्हें album cover"></div>
+    <div class="album-head reveal">
+      <span class="eyebrow">Album III · New</span>
+      <h2 class="lang-hi">अधूरे लम्हें<span class="translit">Adhoore Lamhe</span></h2>
+      <p class="tagline">The unfinished moments — <b>neo-soul for cities at midnight</b>. Eight songs for the drive home after everyone else has said goodnight.</p>
+    </div>
+    <div class="tracklist" id="tracks-3"></div>
+  </div>
+</section>
+
+<footer>
+  <img class="fmark" src="images/logo.png" alt="SoulVani">
+  <p>Handcrafted Hindi soul music, made for listening slowly.</p>
+  <div class="sig mono">SoulVani &middot; previews are 30-second excerpts</div>
+</footer>
+
+<script>
+(function(){
+  var DATA = {
+    1: [
+      {title:"आओ मुझे सीने से लगा लो", mood:"Romantic", src:"audio/a1_01.mp3"},
+      {title:"हौले से मेरी साँसों ने पूछा", mood:"Romantic", src:"audio/a1_02.mp3"},
+      {title:"हद से परे प्यार करने दे", mood:"Romantic", src:"audio/a1_03.mp3"},
+      {title:"शरारती चाहतों को मुझे छुपाना नहीं आता", mood:"Romantic", src:"audio/a1_04.mp3"},
+      {title:"ऐसे छू लिया है मुझे", mood:"Romantic", src:"audio/a1_05.mp3"},
+      {title:"ज़रा सा इश्क़ होने दे", mood:"Romantic", src:"audio/a1_06.mp3"},
+      {title:"एक हो जा मेरे संग", mood:"Deep Romantic", src:"audio/a1_07.mp3"},
+      {title:"रसीले लम्हों की बहार", mood:"Romantic", src:"audio/a1_08.mp3"},
+      {title:"गर मेरे लब गुस्ताख़", mood:"Romantic", src:"audio/a1_09.mp3"}
+    ],
+    2: [
+      {title:"आस-पास", mood:"Longing · Female", src:"audio/a2_01.mp3"},
+      {title:"ज़िक्र किया चाँद ने", mood:"Longing · Female", src:"audio/a2_02.mp3"},
+      {title:"महफूज़ किनारा", mood:"Sensual · Female", src:"audio/a2_03.mp3"},
+      {title:"कतरा-कतरा", mood:"Sensual · Female", src:"audio/a2_04.mp3"},
+      {title:"बीती रैना", mood:"Romance · Female", src:"audio/a2_05.mp3"},
+      {title:"वो लम्हें", mood:"Sensual · Female", src:"audio/a2_06.mp3"},
+      {title:"रातों का नशा", mood:"Sensual · Female", src:"audio/a2_07.mp3"},
+      {title:"ये तड़प", mood:"Sensual · Female", src:"audio/a2_08.mp3"}
+    ],
+    3: [
+      {title:"दिल लगा लिया", mood:"Romance", src:"audio/a3_01.mp3"},
+      {title:"नादान", mood:"Longing · Male", src:"audio/a3_02.mp3"},
+      {title:"अंधेरों में ले चल", mood:"Romance", src:"audio/a3_03.mp3"},
+      {title:"लम्हें", mood:"Romance", src:"audio/a3_04.mp3"},
+      {title:"दिल कितना याद करता है", mood:"Longing · Male", src:"audio/a3_05.mp3"},
+      {title:"तन्हाई", mood:"Longing · Male", src:"audio/a3_06.mp3"},
+      {title:"तेरे संग ने", mood:"Romance · Male", src:"audio/a3_07.mp3"},
+      {title:"चाँदनी", mood:"Romance · Male", src:"audio/a3_08.mp3"}
+    ]
+  };
+
+  var listEls = {1:document.getElementById('tracks-1'),2:document.getElementById('tracks-2'),3:document.getElementById('tracks-3')};
+  var player = document.getElementById('player');
+  var currentBtn = null, currentRow = null, currentRing = null, rafId = null;
+
+  var CIRC = 100.5; // 2 * PI * r(16)
+
+  function iconSVG(){
+    return '<svg viewBox="0 0 36 36"><circle class="ring-bg" cx="18" cy="18" r="16"></circle><circle class="ring-fg" cx="18" cy="18" r="16"></circle></svg>' +
+      '<svg class="icon" viewBox="0 0 24 24"><path class="play" d="M8 5v14l11-7z" fill="currentColor"></path>' +
+      '<g class="pause"><rect x="7" y="5" width="4" height="14" fill="currentColor"></rect><rect x="14" y="5" width="4" height="14" fill="currentColor"></rect></g></svg>';
+  }
+
+  function buildRow(t, idx){
+    var row = document.createElement('div');
+    row.className = 'track';
+    row.innerHTML =
+      '<span class="num mono">' + String(idx+1).padStart(2,'0') + '</span>' +
+      '<button class="playbtn" aria-label="Play preview of ' + t.title + '">' + iconSVG() + '</button>' +
+      '<span class="title lang-hi">' + t.title + '</span>' +
+      '<span class="tag mono">' + t.mood + '</span>';
+    var btn = row.querySelector('.playbtn');
+    var ring = row.querySelector('.ring-fg');
+    btn.addEventListener('click', function(){ toggle(t, row, btn, ring); });
+    return row;
+  }
+
+  function resetCurrent(){
+    if(currentBtn){
+      currentRow.classList.remove('playing');
+      currentRing.style.strokeDashoffset = CIRC;
+    }
+    if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+    currentBtn = currentRow = currentRing = null;
+  }
+
+  function tick(){
+    if(!player.duration || isNaN(player.duration)){ rafId = requestAnimationFrame(tick); return; }
+    var frac = Math.min(player.currentTime / 30, 1);
+    if(currentRing) currentRing.style.strokeDashoffset = String(CIRC * (1 - frac));
+    if(!player.paused) rafId = requestAnimationFrame(tick);
+  }
+
+  function toggle(t, row, btn, ring){
+    var isSame = currentBtn === btn;
+    if(isSame && !player.paused){
+      player.pause();
+      row.classList.remove('playing');
+      if(rafId){ cancelAnimationFrame(rafId); rafId = null; }
+      return;
+    }
+    if(isSame && player.paused){
+      player.play();
+      row.classList.add('playing');
+      rafId = requestAnimationFrame(tick);
+      return;
+    }
+    resetCurrent();
+    player.src = t.src;
+    currentBtn = btn; currentRow = row; currentRing = ring;
+    row.classList.add('playing');
+    player.currentTime = 0;
+    player.play();
+    rafId = requestAnimationFrame(tick);
+  }
+
+  player.addEventListener('ended', resetCurrent);
+
+  Object.keys(DATA).forEach(function(albumNum){
+    DATA[albumNum].forEach(function(t, idx){
+      listEls[albumNum].appendChild(buildRow(t, idx));
+    });
+  });
+
+  // scroll reveal
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, {threshold:0.15});
+  document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+})();
+</script>
+
+</body>
+</html>
